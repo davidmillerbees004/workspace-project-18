@@ -32,10 +32,6 @@ const DocumentLanding = () => {
             You have received a new document
           </h1>
           
-          {/* Subtitle */}
-          <p className="text-muted-foreground text-lg">
-            Internal Document Management System
-          </p>
         </CardHeader>
 
         <CardContent className="space-y-6">
