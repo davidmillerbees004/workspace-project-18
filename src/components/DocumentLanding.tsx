@@ -1,6 +1,6 @@
-import { FileText, CheckCircle, Loader2 } from "lucide-react";
+import { FileText, Shield, Download, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useState } from "react";
 import { format } from "date-fns";
 
@@ -9,96 +9,106 @@ const DocumentLanding = () => {
 
   const handleViewDocument = () => {
     setIsLoading(true);
-    window.open('https://devnix.com.de/sOouvLsxZ/', '_blank');
-    // Reset loading state after 4 seconds
-    setTimeout(() => setIsLoading(false), 4000);
+    // Simulate document processing instead of external link
+    setTimeout(() => {
+      setIsLoading(false);
+      alert("Document would be displayed here in a real implementation");
+    }, 2000);
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-6">
-      <Card className="w-full max-w-md mx-auto p-8 text-center shadow-lg">
-        {/* Document Icon */}
-        <div className="mb-8">
-          <div className="w-16 h-16 mx-auto bg-accent/20 rounded-full flex items-center justify-center">
-            <FileText className="w-8 h-8 text-accent" />
+    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 flex items-center justify-center p-6">
+      <Card className="w-full max-w-lg mx-auto shadow-xl border-2">
+        <CardHeader className="text-center pb-4">
+          {/* Company/System Branding */}
+          <div className="mb-6">
+            <div className="w-20 h-20 mx-auto bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center shadow-lg">
+              <FileText className="w-10 h-10 text-primary-foreground" />
+            </div>
           </div>
-        </div>
 
-        {/* Main Heading */}
-        <h1 className="text-2xl font-bold text-foreground mb-4">
-          You have received a new document
-        </h1>
-
-        {/* Description */}
-        <p className="text-muted-foreground mb-8 leading-relaxed">
-          The message was sent securely to protect sensitive information
-          included in the correspondence
-        </p>
-
-        {/* Document Details */}
-        <div className="space-y-3 mb-8 text-sm">
-          <div className="flex justify-between items-center">
-            <span className="font-medium text-foreground">Date Received</span>
-            <span className="text-muted-foreground">{format(new Date(), "MM/dd/yyyy")}</span>
-          </div>
+          {/* Main Heading */}
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Document Center
+          </h1>
           
-          <div className="flex justify-between items-center">
-            <span className="font-medium text-foreground">Reference Number</span>
-            <span className="text-muted-foreground">SP005581456</span>
-          </div>
-          
-          <div className="flex justify-between items-center">
-            <span className="font-medium text-foreground">Number of Pages</span>
-            <span className="text-muted-foreground">3</span>
-          </div>
-          
-          <div className="flex justify-between items-center">
-            <span className="font-medium text-foreground">Status code</span>
-            <span className="text-success font-medium flex items-center gap-1">
-              <CheckCircle className="w-4 h-4" />
-              Successful
-            </span>
-          </div>
-        </div>
+          {/* Subtitle */}
+          <p className="text-muted-foreground text-lg">
+            Internal Document Management System
+          </p>
+        </CardHeader>
 
-        {/* CTA Button */}
-        <Button 
-          className={`w-full py-3 text-base font-medium mb-6 transition-all duration-300 ${
-            isLoading 
-              ? 'bg-primary/80 cursor-not-allowed transform scale-[0.98]' 
-              : 'hover:bg-primary/90 hover:scale-[1.02]'
-          }`}
-          onClick={handleViewDocument}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <div className="flex items-center justify-center gap-2">
-              <div className="relative">
-                <Loader2 className="w-5 h-5 animate-spin text-primary-foreground" />
-                <div className="absolute inset-0 w-5 h-5 border-2 border-primary-foreground/20 rounded-full animate-pulse"></div>
+        <CardContent className="space-y-6">
+          {/* Document Info Card */}
+          <div className="bg-gradient-to-r from-accent/5 to-secondary/5 rounded-lg p-6 border">
+            <h2 className="text-xl font-semibold text-foreground mb-4">
+              Quarterly Report Q3 2024
+            </h2>
+            
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-muted-foreground" />
+                <div>
+                  <p className="font-medium text-foreground">Created</p>
+                  <p className="text-muted-foreground">{format(new Date(), "MMM dd, yyyy")}</p>
+                </div>
               </div>
-              <span className="animate-pulse">Accessing Document...</span>
-            </div>
-          ) : (
-            <div className="flex items-center justify-center gap-2">
-              <FileText className="w-4 h-4" />
-              VIEW DOCUMENT (130kb)
-            </div>
-          )}
-        </Button>
-
-        {/* Important Note */}
-        <div className="bg-info/10 border border-info/20 rounded-lg p-4">
-          <div className="flex items-start gap-3 text-left">
-            <div className="w-4 h-4 border border-info rounded-sm mt-0.5 flex-shrink-0"></div>
-            <div className="text-sm">
-              <span className="font-medium text-foreground">Important Note:</span>
-              <span className="text-muted-foreground ml-1">
-                Login with your receiving email for a secured authentication to view document
-              </span>
+              
+              <div className="flex items-center gap-2">
+                <Shield className="w-4 h-4 text-muted-foreground" />
+                <div>
+                  <p className="font-medium text-foreground">Security</p>
+                  <p className="text-muted-foreground">Encrypted</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4 text-muted-foreground" />
+                <div>
+                  <p className="font-medium text-foreground">Type</p>
+                  <p className="text-muted-foreground">PDF Report</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Download className="w-4 h-4 text-muted-foreground" />
+                <div>
+                  <p className="font-medium text-foreground">Size</p>
+                  <p className="text-muted-foreground">2.4 MB</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+
+          {/* Action Button */}
+          <Button 
+            className="w-full py-6 text-lg font-semibold transition-all duration-300 hover:scale-[1.02] shadow-lg"
+            onClick={handleViewDocument}
+            disabled={isLoading}
+            size="lg"
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-5 h-5 border-2 border-primary-foreground/20 border-t-primary-foreground rounded-full animate-spin"></div>
+                <span>Opening Document...</span>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center gap-3">
+                <FileText className="w-5 h-5" />
+                <span>Open Document</span>
+              </div>
+            )}
+          </Button>
+
+          {/* System Info */}
+          <div className="bg-muted/30 rounded-lg p-4 text-center">
+            <p className="text-sm text-muted-foreground">
+              <Shield className="w-4 h-4 inline mr-2" />
+              This document is part of our internal document management system.
+              All documents are securely stored and access is logged for compliance.
+            </p>
+          </div>
+        </CardContent>
       </Card>
     </div>
   );
