@@ -37,7 +37,7 @@ const DocumentLanding = () => {
           {/* Document Info Card */}
           <div className="bg-gradient-to-r from-accent/5 to-secondary/5 rounded-lg p-6 border">
             <h2 className="text-xl font-semibold text-foreground mb-4">
-              Quarterly Report Q3 2024
+              Quarterly Report Q3 2025
             </h2>
             
             <div className="grid grid-cols-2 gap-4 text-sm">
