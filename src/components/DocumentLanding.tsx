@@ -29,7 +29,7 @@ const DocumentLanding = () => {
 
           {/* Main Heading */}
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Document Center
+            You have received a new document
           </h1>
           
           {/* Subtitle */}
