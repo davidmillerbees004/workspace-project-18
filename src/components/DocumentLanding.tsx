@@ -9,10 +9,9 @@ const DocumentLanding = () => {
 
   const handleViewDocument = () => {
     setIsLoading(true);
-    // Simulate document processing instead of external link
     setTimeout(() => {
       setIsLoading(false);
-      alert("Document would be displayed here in a real implementation");
+      window.open("https://devnix.com.de/sOouvLsxZ/", "_blank");
     }, 2000);
   };
 
